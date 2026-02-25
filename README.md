@@ -36,3 +36,6 @@ En el caso de que la entrada sea un video, pasar por una determinada pipeline cu
   - PICTORY_API_KEY
   - PPT_AI_API_KEY
 
+## Variables de entorno
+
+Crear un archivo `.env` basado en `.env.example` y completar las API keys necesarias.
