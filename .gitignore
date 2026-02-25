@@ -1,0 +1,23 @@
+# Entornos
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Resultados generados
+resultados/
+*.mp4
+*.pdf
+*.pptx
+
+# Cache de herramientas
+.whisper/
+.cache/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
