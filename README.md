@@ -9,4 +9,4 @@ En el caso de que la entrada sea un PDF, pasar por una determinada pipeline cuya
 - Video editado
 - Transcripción del video en PDF
 - Video en base al PDF de transcripción 
-![Vista previa de la app](img/demo.png)
+![Esquema del Pipeline](img/PIPELINE.png)
