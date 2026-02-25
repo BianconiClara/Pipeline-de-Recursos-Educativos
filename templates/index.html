@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Procesador Académico de Contenidos</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+  <header class="header">
+    <h1>Procesador Académico de Videos y Documentos</h1>
+    <p>Suba un video o PDF para generar transcripción, presentación y material audiovisual</p>
+  </header>
+
+  <main class="layout">
+
+    <section class="card formulario">
+      <h2>Subir archivo</h2>
+
+      <form id="uploadForm">
+        <label for="fileInput">Seleccione un video o documento PDF</label>
+        <input type="file" id="fileInput" required>
+
+        <button type="submit">Procesar archivo</button>
+      </form>
+
+      <div id="estado" class="estado"></div>
+    </section>
+
+    <section class="card resultados" id="resultados">
+      <h2>Resultados</h2>
+      <p class="hint">Aquí aparecerán los archivos generados.</p>
+    </section>
+
+  </main>
+
+<script>
+
+  document.getElementById("uploadForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const estado = document.getElementById("estado");
+    const resultadosDiv = document.getElementById("resultados");
+    const fileInput = document.getElementById("fileInput");
+
+    if (!fileInput.files.length) {
+      estado.textContent = "Seleccioná un archivo primero";
+      return;
+    }
+
+    estado.textContent = "Procesando archivo...";
+    resultadosDiv.innerHTML = "";
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+      const res = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Error en el servidor");
+      }
+
+      const data = await res.json();
+      estado.textContent = "Haz clic en los enlaces para descargar los resultados:";
+
+      const r = data.resultados;
+      let html = "<div class='resultado'><h3>Resultados</h3>";
+
+      if (r.video_pictory) {
+        html += `
+          <p> Video:
+            <a href="/resultados/${r.video_pictory}" download>
+              Descargar
+            </a>
+          </p>`;
+      }
+
+      if (r.presentacion) {
+        html += `
+          <p> Presentación:
+            <a href="/resultados/${r.presentacion}" download>
+              Descargar
+            </a>
+          </p>`;
+      }
+
+      if (r.pdf_transcripcion) {
+        html += `
+          <p> Transcripción:
+            <a href="/resultados/${r.pdf_transcripcion}" download>
+              Descargar
+            </a>
+          </p>`;
+      }
+      
+      if (r.video_editado) {
+        html += `
+          <p> Video editado:
+            <a href="/resultados/${r.video_editado}" download>
+              Descargar
+            </a>
+          </p>`;
+      }
+
+      html += "</div>";
+      resultadosDiv.innerHTML = html;
+
+    } catch (err) {
+      estado.textContent = "Error: " + err.message;
+    }
+  };
+
+
+</script>
+
+</body>
+</html>
