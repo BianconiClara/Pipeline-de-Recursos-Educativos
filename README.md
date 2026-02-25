@@ -8,5 +8,6 @@ En el caso de que la entrada sea un PDF, pasar por una determinada pipeline cuya
 ### MP4
 - Video editado
 - Transcripción del video en PDF
-- Video en base al PDF de transcripción 
+- Video en base al PDF de transcripción
+# Esquema
 ![Esquema del Pipeline](img/PIPELINE.png)
